@@ -20,8 +20,8 @@ for skip in $SKIP; do
     SKIPS="${SKIPS} --skip=${skip}"
 done
 
-PREFETCH=$(clojure -Stree -Sdeps '{:deps {antq/antq {:mvn/version "RELEASE"}}}')
-UPGRADES=$(clojure -Sdeps '{:deps {antq/antq {:mvn/version "RELEASE"}}}' -m antq.core --reporter=format --error-format="{{name}},{{version}},{{latest-version}}" $EXCLUDES $DIRECTORIES $SKIPS | sed '/Failed to fetch/d' | sed '/Unable to fetch/d' | sed '/Logging initialized/d')
+PREFETCH=$(clojure -Stree -Sdeps '{:deps {antq/antq {:git/url "https://github.com/liquidz/antq" :sha "3561f04d0b5355fd8f1465851454a1b7ebc01c1c"}}}')
+UPGRADES=$(clojure -Sdeps '{:deps {antq/antq {:git/url "https://github.com/liquidz/antq" :sha "3561f04d0b5355fd8f1465851454a1b7ebc01c1c"}}}' -m antq.core --reporter=format --error-format="{{name}},{{version}},{{latest-version}}" $EXCLUDES $DIRECTORIES $SKIPS | sed '/Failed to fetch/d' | sed '/Unable to fetch/d' | sed '/Logging initialized/d')
 
 if [ $BATCH = 'true' ]; then
   BRANCH_NAME="dependencies/clojure/$(date +"%Y-%m-%d-%H-%M-%S")"
